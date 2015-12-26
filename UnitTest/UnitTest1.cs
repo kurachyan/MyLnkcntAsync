@@ -14,9 +14,9 @@ namespace UnitTest
             CS_LnkcntAsync lnkcnt = new CS_LnkcntAsync();
 
             #region 対象：評価対象なし
-            lnkcnt.Clear();
+            lnkcnt.ClearAsync();
             lnkcnt.Wbuf = @"This is a Pen.";
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
 
             Assert.AreEqual(0, lnkcnt.Lnkcnt, @"[This is a Pen.] : Nest = 0");
             #endregion
@@ -28,16 +28,16 @@ namespace UnitTest
             CS_LnkcntAsync lnkcnt = new CS_LnkcntAsync();
 
             #region 対象：評価対象あり（”｛”）
-            lnkcnt.Clear();
+            lnkcnt.ClearAsync();
             lnkcnt.Wbuf = @"This is a Pen. {";
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
 
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[This is a Pen. {] : Nest = 1");
             #endregion
 
             #region 対象：評価対象あり（”｝”）
             lnkcnt.Wbuf = @"This is a Pen. }";
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
 
             Assert.AreEqual(0, lnkcnt.Lnkcnt, @"[This is a Pen. }] : Nest = 0");
             #endregion
@@ -58,17 +58,17 @@ namespace UnitTest
             };
 
             #region 対象：評価対象なし
-            lnkcnt.Clear();
+            lnkcnt.ClearAsync();
             lnkcnt.Wbuf = Keyword[0];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[main() {] : Nest = 1");
 
             lnkcnt.Wbuf = Keyword[1];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[  test();] : Nest = 1");
 
             lnkcnt.Wbuf = Keyword[2];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(0, lnkcnt.Lnkcnt, @"[}] : Nest = 0");
             #endregion
         }
@@ -87,30 +87,30 @@ namespace UnitTest
             };
 
             #region 対象：評価対象なし
-            lnkcnt.Clear();
+            lnkcnt.ClearAsync();
             lnkcnt.Wbuf = Keyword[0];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[main() {] : Nest = 1");
 
             lnkcnt.Wbuf = Keyword[1];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[   test1();] : Nest = 1");
 
             lnkcnt.Wbuf = Keyword[2];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(2, lnkcnt.Lnkcnt, @"[   if(true){] : Nest = 2");
 
             lnkcnt.Wbuf = Keyword[3];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(2, lnkcnt.Lnkcnt, @"[       test2();] : Nest = 2");
 
 
             lnkcnt.Wbuf = Keyword[4];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(1, lnkcnt.Lnkcnt, @"[   }] : Nest = 1");
 
             lnkcnt.Wbuf = Keyword[5];
-            lnkcnt.Exec();
+            lnkcnt.ExecAsync();
             Assert.AreEqual(0, lnkcnt.Lnkcnt, @"[}] : Nest = 0");
             #endregion
         }

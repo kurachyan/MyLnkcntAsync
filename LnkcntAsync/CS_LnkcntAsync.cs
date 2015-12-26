@@ -38,9 +38,9 @@ namespace LnkcntAsync
                         lskip = new CS_LskipAsync();
                     }
                     rskip.Wbuf = _wbuf;
-                    rskip.Exec();
+                    rskip.ExecAsync();
                     lskip.Wbuf = rskip.Wbuf;
-                    lskip.Exec();
+                    lskip.ExecAsync();
                     _wbuf = lskip.Wbuf;
 
                     // 作業の為の下処理
@@ -73,20 +73,20 @@ namespace LnkcntAsync
         #region コンストラクタ
         public CS_LnkcntAsync()
         {   // コンストラクタ
-            this._wbuf = null;       // 設定情報無し
-            this._empty = true;
-            this._lnkcnt = 0;
+            _wbuf = null;       // 設定情報無し
+            _empty = true;
+            _lnkcnt = 0;
         }
         #endregion
 
         #region モジュール
-        public async Task Clear()
+        public async Task ClearAsync()
         {   // 作業領域の初期化
-            this._wbuf = null;       // 設定情報無し
-            this._empty = true;
-            this._lnkcnt = 0;
+            _wbuf = null;       // 設定情報無し
+            _empty = true;
+            _lnkcnt = 0;
         }
-        public async Task Exec()
+        public async Task ExecAsync()
         {   // 中カッコ（”｛”、”｝”）のネスト情報を取り出す
             if (!_empty)
             {   // バッファーに実装有り
