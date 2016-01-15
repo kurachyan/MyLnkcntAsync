@@ -10,8 +10,12 @@ namespace LnkcntAsync
     public class CS_LnkcntAsync
     {
         #region 共有領域
+        // '16.01.13 両側余白情報削除の追加　及び、右側・左側余白処理のコメント化
+/*
         CS_RskipAsync rskip;        // 右側余白情報を削除
         CS_LskipAsync lskip;        // 左側余白情報を削除
+*/
+        CS_LRskipAsync lrskip;      // 両側余白情報を削除
 
         private String _wbuf;       // ソース情報
         private Boolean _empty;     // ソース情報有無
@@ -32,6 +36,7 @@ namespace LnkcntAsync
                 else
                 {   // 整形処理を行う
                     // 不要情報削除
+/*
                     if (rskip == null || lskip == null)
                     {   // 未定義？
                         rskip = new CS_RskipAsync();
@@ -42,6 +47,13 @@ namespace LnkcntAsync
                     lskip.Wbuf = rskip.Wbuf;
                     lskip.ExecAsync();
                     _wbuf = lskip.Wbuf;
+*/
+                    if (lrskip == null)
+                    {   // 未定義？
+                        lrskip = new CS_LRskipAsync();
+                    }
+                    lrskip.ExecAsync(_wbuf);
+                    _wbuf = lrskip.Wbuf;
 
                     // 作業の為の下処理
                     if (_wbuf.Length == 0 || _wbuf == null)
@@ -77,8 +89,7 @@ namespace LnkcntAsync
             _empty = true;
             _lnkcnt = 0;
 
-            rskip = null;
-            lskip = null;
+            lrskip = null;
         }
         #endregion
 
@@ -89,8 +100,7 @@ namespace LnkcntAsync
             _empty = true;
             _lnkcnt = 0;
 
-            rskip = null;
-            lskip = null;
+            lrskip = null;
         }
         public async Task ExecAsync()
         {   // 中カッコ（”｛”、”｝”）のネスト情報を取り出す
@@ -100,7 +110,7 @@ namespace LnkcntAsync
                 char[] arry = new char[_wbuf.Length];
 
                 arry = _wbuf.ToCharArray();
-                for (_pos = 0; _pos < this._wbuf.Length; _pos++)
+                for (_pos = 0; _pos < _wbuf.Length; _pos++)
                 {
                     if (arry[_pos] == '{')
                     {   // [｛]有り？
@@ -127,7 +137,7 @@ namespace LnkcntAsync
                 char[] arry = new char[_wbuf.Length];
 
                 arry = _wbuf.ToCharArray();
-                for (_pos = 0; _pos < this._wbuf.Length; _pos++)
+                for (_pos = 0; _pos < _wbuf.Length; _pos++)
                 {
                     if (arry[_pos] == '{')
                     {   // [｛]有り？
@@ -154,6 +164,7 @@ namespace LnkcntAsync
             else
             {   // 整形処理を行う
                 // 不要情報削除
+/*
                 if (rskip == null || lskip == null)
                 {   // 未定義？
                     rskip = new CS_RskipAsync();
@@ -164,6 +175,13 @@ namespace LnkcntAsync
                 lskip.Wbuf = rskip.Wbuf;
                 await lskip.ExecAsync();
                 _wbuf = lskip.Wbuf;
+*/
+                if (lrskip == null)
+                {   // 未定義？
+                    lrskip = new CS_LRskipAsync();
+                }
+                await lrskip.ExecAsync(_wbuf);
+                _wbuf = lrskip.Wbuf;
 
                 // 作業の為の下処理
                 if (_wbuf.Length == 0 || _wbuf == null)
